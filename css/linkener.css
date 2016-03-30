@@ -70,6 +70,11 @@ input[type=submit]:hover, input[type=button]:hover {
     width: 65%;
 }
 
+#input_name{
+    right: 0;
+    width: auto;
+}
+
 .smallest {
     display: inline-block;
 }
