@@ -104,6 +104,6 @@ function isApache() {
 				   pattern="^(?=.*[0-9]*)(?=.*[a-zA-Z_-])([a-zA-Z0-9_-]+)$">
 		</form>
 		<br>
-		<a id="link_output"></a>
+		<h2><a target="_blank" id="link_output"></a><h2>
 	</body>
 </html>
