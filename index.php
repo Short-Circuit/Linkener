@@ -40,7 +40,8 @@ if (isset($_GET["name"]) || isset($_GET["action"])) {
 			}
 			http_response_code(200);
 			$new_url = isApache() ? $_SERVER["HTTP_HOST"] . "/linkener/$name" : $_SERVER["HTTP_HOST"] . "/linkener/?name=$name";
-			exit("[0, \"$new_url\"]");
+			$protocol = getProtocol();
+			exit("[0, \"$protocol$new_url\"]");
 		}
 	}
 	
@@ -66,6 +67,9 @@ if (isset($_GET["name"]) || isset($_GET["action"])) {
 	echo "URL not found";
 }
 
+function getProtocol(){
+	return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+}
 function isValidAlias($var) {
 	return !preg_match("/^([+-]?\\d\\d*)$/", $var) && preg_match("/^[a-zA-Z_0-9-]*$/", $var);
 }
@@ -93,7 +97,7 @@ function isApache() {
 			<input id="submit_link" class="btn-sm" type="submit" value="Create Link">
 			<br>
 			<hr>
-			<span id="custom_span"><?php echo $_SERVER["HTTP_HOST"] . "/linkener/" ?></span>
+			<span id="custom_span"><?php echo getProtocol() . $_SERVER["HTTP_HOST"] . "/linkener/" ?></span>
 			<input id="input_name" title="Name"
 				   placeholder="Custom alias (optional)"
 				   type="text"
