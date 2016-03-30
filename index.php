@@ -11,7 +11,6 @@ if (sizeof($_GET) > 0) {
 	elseif (sizeof($_GET) == 1) {
 		reset($_GET);
 		$name = key($_GET);
-		error_log($name);
 	}
 	$db = new MyPDO();
 	if (isset($_GET["action"])) {
