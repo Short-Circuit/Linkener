@@ -78,7 +78,7 @@ function getProtocol() {
 }
 
 function isValidAlias($var) {
-	return !preg_match("/^([+-]?\\d\\d*)$/", $var) && preg_match("/^[a-zA-Z_0-9-]*$/", $var);
+	return !$var || preg_match("/^(?=.*[0-9]*)(?=.*[a-zA-Z_-])([a-zA-Z0-9_-]+)$/", $var);
 }
 
 ?>
