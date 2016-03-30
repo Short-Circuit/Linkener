@@ -43,7 +43,7 @@ if (sizeof($_GET) > 0) {
 				$name = $db->lastInsertId();
 			}
 			http_response_code(200);
-			$new_url = isApache() ? $_SERVER["HTTP_HOST"] . "/linkener/$name" : $_SERVER["HTTP_HOST"] . "/linkener/?$name";
+			$new_url = $_SERVER["HTTP_HOST"] . "/linkener/?$name";
 			$protocol = getProtocol();
 			exit("[0, \"$protocol$new_url\"]");
 		}
@@ -79,10 +79,6 @@ function getProtocol() {
 
 function isValidAlias($var) {
 	return !preg_match("/^([+-]?\\d\\d*)$/", $var) && preg_match("/^[a-zA-Z_0-9-]*$/", $var);
-}
-
-function isApache() {
-	return strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false;
 }
 
 ?>
