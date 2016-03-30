@@ -2,11 +2,16 @@
 /**
  * Created by Caleb Milligan on 3/29/2016.
  */
-if (isset($_GET["name"]) || isset($_GET["action"])) {
+if (sizeof($_GET) > 0) {
 	include_once "MyPDO.php";
 	$name = null;
 	if (isset($_GET["name"])) {
 		$name = $_GET["name"];
+	}
+	elseif (sizeof($_GET) == 1) {
+		reset($_GET);
+		$name = key($_GET);
+		error_log($name);
 	}
 	$db = new MyPDO();
 	if (isset($_GET["action"])) {
@@ -39,33 +44,34 @@ if (isset($_GET["name"]) || isset($_GET["action"])) {
 				$name = $db->lastInsertId();
 			}
 			http_response_code(200);
-			$new_url = isApache() ? $_SERVER["HTTP_HOST"] . "/linkener/$name" : $_SERVER["HTTP_HOST"] . "/linkener/?name=$name";
+			$new_url = isApache() ? $_SERVER["HTTP_HOST"] . "/linkener/$name" : $_SERVER["HTTP_HOST"] . "/linkener/?$name";
 			$protocol = getProtocol();
 			exit("[0, \"$protocol$new_url\"]");
 		}
 	}
-	
-	$statement = $db->prepare("SELECT `url` FROM `links` WHERE `name`=:link_name");
-	$statement->bindParam(":link_name", $name, PDO::PARAM_STR);
-	$success = $statement->execute();
-	$url = "";
-	if ($statement->rowCount() > 0) {
-		$url = $statement->fetchColumn();
-		$statement->closeCursor();
-		header("Location: $url");
-		exit;
+	else {
+		$statement = $db->prepare("SELECT `url` FROM `links` WHERE `name`=:link_name");
+		$statement->bindParam(":link_name", $name, PDO::PARAM_STR);
+		$success = $statement->execute();
+		$url = "";
+		if ($statement->rowCount() > 0) {
+			$url = $statement->fetchColumn();
+			$statement->closeCursor();
+			header("Location: $url");
+			exit;
+		}
+		$statement = $db->prepare("SELECT `url` FROM `links` WHERE `id`=:link_id");
+		$statement->bindParam(":link_id", $name, PDO::PARAM_INT);
+		$success = $statement->execute();
+		if ($statement->rowCount() > 0) {
+			$url = $statement->fetchColumn();
+			$statement->closeCursor();
+			header("Location: $url");
+			exit;
+		}
+		echo file_get_contents("notfound.html");
+		exit(0);
 	}
-	$statement = $db->prepare("SELECT `url` FROM `links` WHERE `id`=:link_id");
-	$statement->bindParam(":link_id", $name, PDO::PARAM_INT);
-	$success = $statement->execute();
-	if ($statement->rowCount() > 0) {
-		$url = $statement->fetchColumn();
-		$statement->closeCursor();
-		header("Location: $url");
-		exit;
-	}
-	echo file_get_contents("notfound.html");
-	exit(0);
 }
 
 function getProtocol() {
@@ -115,7 +121,8 @@ function isApache() {
 							   pattern="^(?=.*[0-9]*)(?=.*[a-zA-Z_-])([a-zA-Z0-9_-]+)$">
 					</form>
 					<br>
-					<h2><a target="_blank" id="link_output"></a><h2>
+					<h2><a target="_blank" id="link_output"></a>
+						<h2>
 				</div>
 			</div>
 		</div>
