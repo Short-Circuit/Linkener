@@ -64,12 +64,14 @@ if (isset($_GET["name"]) || isset($_GET["action"])) {
 		header("Location: $url");
 		exit;
 	}
-	echo "URL not found";
+	echo file_get_contents("notfound.html");
+	exit(0);
 }
 
-function getProtocol(){
+function getProtocol() {
 	return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 }
+
 function isValidAlias($var) {
 	return !preg_match("/^([+-]?\\d\\d*)$/", $var) && preg_match("/^[a-zA-Z_0-9-]*$/", $var);
 }
@@ -80,6 +82,9 @@ function isApache() {
 
 ?>
 <!DOCTYPE html>
+<!--
+  -- Created by Caleb Milligan on 3/30/2016
+  -->
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -92,18 +97,30 @@ function isApache() {
 		<script type="application/javascript" src="js/linkener.js"></script>
 	</head>
 	<body>
-		<form class="smallest" onsubmit="createLink();return false">
-			<input id="input_url" title="URL" placeholder="URL to shorten" type="url" required="required">
-			<input id="submit_link" class="btn-sm" type="submit" value="Create Link">
-			<br>
-			<hr>
-			<span id="custom_span"><?php echo getProtocol() . $_SERVER["HTTP_HOST"] . "/linkener/" ?></span>
-			<input id="input_name" title="Name"
-				   placeholder="Custom alias (optional)"
-				   type="text"
-				   pattern="^(?=.*[0-9]*)(?=.*[a-zA-Z_-])([a-zA-Z0-9_-]+)$">
-		</form>
-		<br>
-		<h2><a target="_blank" id="link_output"></a><h2>
+		<header class="overlay">
+			<h1>Linkener URL Shortener</h1>
+		</header>
+		<div class="center_outer">
+			<div class="center_middle">
+				<div class="center_inner">
+					<form class="smallest" onsubmit="createLink();return false">
+						<input id="input_url" title="URL" placeholder="URL to shorten" type="url" required="required">
+						<input id="submit_link" type="submit" value="Create Link">
+						<br>
+						<hr>
+						<span id="custom_span"><?php echo getProtocol() . $_SERVER["HTTP_HOST"] . "/linkener/" ?></span>
+						<input id="input_name" title="Name"
+							   placeholder="Custom alias (optional)"
+							   type="text"
+							   pattern="^(?=.*[0-9]*)(?=.*[a-zA-Z_-])([a-zA-Z0-9_-]+)$">
+					</form>
+					<br>
+					<h2><a target="_blank" id="link_output"></a><h2>
+				</div>
+			</div>
+		</div>
+		<footer class="overlay">
+			<p>Copyright © Caleb Milligan. All rights reserved.</p>
+		</footer>
 	</body>
 </html>

@@ -1,13 +1,93 @@
-body{
+.overlay {
+    position: fixed;
+}
+
+
+header, footer {
+    width: 100%;
+    text-align: center;
+}
+
+header.overlay {
+    top: 0;
+}
+
+footer.overlay {
+    bottom: 0;
+}
+
+body {
     background-color: #2B2B2B;
-    color: #B2B2B2;
+    color: #BABABA;
 }
-form{
+
+form {
     overflow: hidden;
+    position: relative;
 }
-input{
-    color: #000000;
+
+input {
+    background-color: #BABABA;
+    color: #2B2B2B;
+    border: 2px solid #7B7B7B;
+    border-right: 3px #ABABAB;
+    border-left-color: #4B4B4B;
+    border-radius: 2px;
 }
-.smallest{
+
+input[type=submit], input[type=button] {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+input[type=submit]:hover, input[type=button]:hover {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: #BABAFF;
+}
+
+::-webkit-input-placeholder {
+    color: #3B3B3B;
+}
+
+::-moz-placeholder {
+    color: #3B3B3B;
+}
+
+:-ms-input-placeholder {
+    color: #3B3B3B;
+}
+
+#submit_link {
+    width: 30%;
+    position: absolute;
+    right: 0;
+}
+
+#input_url {
+    position: absolute;
+    top: 3%;
+    width: 65%;
+}
+
+.smallest {
     display: inline-block;
+}
+
+.center_outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.center_middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.center_inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
 }
