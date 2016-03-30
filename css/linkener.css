@@ -1,0 +1,13 @@
+body{
+    background-color: #2B2B2B;
+    color: #B2B2B2;
+}
+form{
+    overflow: hidden;
+}
+input{
+    color: #000000;
+}
+.smallest{
+    display: inline-block;
+}

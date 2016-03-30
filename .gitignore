@@ -1,0 +1,19 @@
+#Ignore Eclipse Configs
+.classpath
+.project
+.settings
+.recommenders
+#Ignore IntelliJ Configs
+.idea
+.metadata
+*.iml
+#Ignore Binaries
+bin/
+#Ignore builds
+build/
+target/
+out/
+uploaded/
+*.log
+*.pw
+.htaccess
